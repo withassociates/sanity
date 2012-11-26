@@ -10,4 +10,5 @@ describe "A happy site" do
   it "has an appropriate robots.txt"
   it "has a helpful 404 page"
   it "has a helpful 500 page"
+  it "has all its domains registered with the font provider"
 end
