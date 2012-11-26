@@ -1,1 +1,1 @@
-rvm use 1.9.3@sanity
+rvm use 1.9.3@sanity --create
