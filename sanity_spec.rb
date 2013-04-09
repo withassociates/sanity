@@ -1,5 +1,5 @@
 require 'bundler/setup'
-require 'rspec'
+require 'rspec/autorun'
 require 'net/http'
 require 'open-uri'
 require 'pry'
