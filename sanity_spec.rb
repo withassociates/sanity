@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'rspec'
+require 'net/http'
 require 'open-uri'
 require 'pry'
 
@@ -8,8 +9,16 @@ describe "A happy site" do
     'http://2012.withassociates.com'
   end
 
+  let :request do
+    Net::HTTP.new(base[7 .. -1], 80)
+  end
+
   let :homepage do
     open "#{base}/"
+  end
+
+  def status_for(url)
+    request.request_head url
   end
 
   it "has a meaningful title" do
@@ -33,19 +42,26 @@ describe "A happy site" do
   end
 
   it "has a favicon" do
-    open("#{base}/favicon.ico").status.should == %w[200 OK]
+    status_for('/favicon.ico').should == '200'
   end
 
   it "has a touch icon" do
     homepage.read.should include '<link rel="apple-touch-icon"'
   end
 
+  it "has a default touch icon" do
+    icons = %w(apple-touch-icon.png apple-touch-icon-precomposed.png)
+
+    statuses = icons.collect { |icon| status_for('/' + icon).code }
+    statuses.should include "200"
+  end
+
   it "has an appropriate humans.txt" do
-    open("#{base}/humans.txt").status.should == %w[200 OK]
+    status_for('/humans.txt').status.should == '200'
   end
 
   it "has an appropriate robots.txt" do
-    open("#{base}/robots.txt").status.should == %w[200 OK]
+    status_for('/robots.txt').status.should == '200'
   end
 
   it "has a helpful 404 page" do
