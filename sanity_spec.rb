@@ -73,4 +73,5 @@ describe "A happy site" do
   end
 
   it "has all its domains registered with the font provider"
+  it "has a fully functional RSS feed"
 end
